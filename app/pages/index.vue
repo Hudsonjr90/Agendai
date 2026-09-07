@@ -75,7 +75,7 @@ const title =
   'Hudson Kennedy | Desenvolvedor Full Stack'
 
 const description =
-  'Portfólio de Hudson Kennedy, Desenvolvedor Full Stack especializado em Vue.js, Nuxt, React, Node.js, NestJS, TypeScript, PostgreSQL e arquitetura de software.'
+  'Desenvolvedor Full Stack especializado em Frontend, Backend, Banco de dados e arquitetura de software.'
 
 const ogImage = `${siteUrl}/logo.png`
 
