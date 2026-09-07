@@ -158,11 +158,11 @@ const principles = [
                 </q-avatar>
 
                 <div class="col">
-                  <div class="text-subtitle1 text-weight-bold">
+                  <div class="text-subtitle1 text-white text-weight-bold">
                     {{ principle.title }}
                   </div>
 
-                  <div class="text-body2 q-mt-xs">
+                  <div class="text-body2 text-white q-mt-xs">
                     {{ principle.description }}
                   </div>
                 </div>

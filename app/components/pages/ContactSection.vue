@@ -26,6 +26,7 @@ const { isMobile } = useMobile()
 const { isDark } = useTheme()
 
 const config = useRuntimeConfig()
+const emailHref = 'mailto:hudsonhugo90@gmail.com?subject=Contato%20pelo%20Portf%C3%B3lio&body=Ol%C3%A1%20Hudson%2C%20podemos%20conversar%3F'
 
 const mapContainer = ref<HTMLElement | null>(null)
 
@@ -41,10 +42,6 @@ function getTileUrl() {
 
   return `https://{s}.basemaps.cartocdn.com/rastertiles/${style}/{z}/{x}/{y}{r}.png?key=${encodeURIComponent(String(config.public.cartoApiKey ?? '').trim())}`
 }
-
-const email = computed(() => {
-  return portfolio.value?.profile?.email ?? ''
-})
 
 const socialLinks = computed(() => {
   return [...(portfolio.value?.socialLinks ?? [])]
@@ -442,12 +439,13 @@ onBeforeUnmount(() => {
 
               <div class="contact-list q-mt-lg">
                 <a
-                  v-if="email"
-                  :href="`mailto:${email}`"
+                  :href="emailHref"
                   class="contact-info"
+                  target="_blank"
                 >
                   <q-avatar
                     color="primary"
+                    text-color="white"
                     size="44px"
                   >
                     <q-icon name="mdi-email-outline" />
@@ -461,7 +459,7 @@ onBeforeUnmount(() => {
                     <div
                       class="text-body2 text-weight-bold"
                     >
-                      {{ email }}
+                      hudsonhugo90@gmail.com
                     </div>
                   </div>
                 </a>
@@ -476,6 +474,7 @@ onBeforeUnmount(() => {
                 >
                   <q-avatar
                     color="primary"
+                    text-color="white"
                     size="44px"
                   >
                     <q-icon
@@ -530,17 +529,17 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="contact-location q-mt-md">
+                 <q-chip
+                  class="text-body1 text-weight-bold bg-primary text-white"
+                >
                 <q-icon
                   name="mdi-map-marker-outline"
-                  color="primary"
+                  text-color="white"
                   size="26px"
-                />
-
-                <span
-                  class="text-body1 text-weight-bold"
-                >
+                  class="q-mr-xs"
+                />              
                   {{ locationLabel }}
-                </span>
+                </q-chip>
               </div>
             </q-card-section>
 

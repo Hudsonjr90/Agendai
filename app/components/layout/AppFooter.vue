@@ -8,7 +8,7 @@
       <div class="wrapper">
         <div class="column items-center q-gutter-sm">
           <div class="text-caption text-center">
-            © {{ new Date().getFullYear() }} Hudson Kennedy.
+            © 2012 - {{ new Date().getFullYear() }} Hudson Kennedy.
             Todos os direitos reservados.
           </div>
 
