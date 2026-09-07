@@ -261,9 +261,10 @@ onBeforeUnmount(() => {
           @click.prevent="handleLogoClick"
         >
           <img
-            :src="isDark ? logo : logoWhite"
+            :src="logoWhite"
             alt="HK Dev"
-            height="62"
+            height="60"
+            width="60"
           />
         </a>
       </q-toolbar-title>
