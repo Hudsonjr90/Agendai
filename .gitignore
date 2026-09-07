@@ -28,3 +28,5 @@ logs
 
 # Prisma migrations (descomente para versionar migrations)
 # prisma/migrations/
+.vercel
+.env*
