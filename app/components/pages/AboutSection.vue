@@ -89,6 +89,7 @@ const principles = [
                 label="Meu currículo"
                 no-caps
                 aria-label="Abrir opções de currículo"
+                :class="isMobile ? 'full-width' : ''"
               >
                 <q-list class="bg-primary text-white">
                   <q-item
@@ -138,6 +139,11 @@ const principles = [
                   </q-item>
                 </q-list>
               </q-btn-dropdown>
+
+              <social-links-fab
+                direction="right"
+                
+              />
             </div>
           </div>
 
@@ -257,7 +263,7 @@ const principles = [
   </section>
 </template>
 
-<style scoped>
+<style>
 /* =========================================================
    AVATAR / EFEITO ELÉTRICO
    ========================================================= */

@@ -40,39 +40,54 @@ export function getMailtoUrl(email: string) {
 	return email ? `mailto:${email}` : '#'
 }
 
-export function getWhatsAppNumber(url: string) {
-	try {
-		const parsedUrl = new URL(url)
-		const phone = parsedUrl.searchParams.get('phone')
+export function getWhatsAppNumber(value: string) {
+  if (!value) {
+    return ''
+  }
 
-		if (!phone) {
-			return url
-		}
+  try {
+    const parsedUrl = new URL(value)
 
-		const digits = phone.replace(/\D/g, '')
+    let phone = parsedUrl.searchParams.get('phone') ?? ''
 
-		if (digits.startsWith('55') && digits.length >= 12) {
-			const country = digits.slice(0, 2)
-			const area = digits.slice(2, 4)
-			const number = digits.slice(4)
+    if (!phone && parsedUrl.hostname === 'wa.me') {
+      phone = parsedUrl.pathname.replace(/^\/+/, '')
+    }
 
-			if (number.length === 9) {
-				return `+${country} ${area} ${number.slice(
-					0,
-					5,
-				)}-${number.slice(5)}`
-			}
+    const digits = phone.replace(/\D/g, '')
 
-			return `+${country} ${area} ${number.slice(
-				0,
-				4,
-			)}-${number.slice(4)}`
-		}
+    if (!digits) {
+      return ''
+    }
 
-		return `+${digits}`
-	} catch {
-		return url
-	}
+    if (digits.startsWith('55') && digits.length >= 12) {
+      const country = digits.slice(0, 2)
+      const area = digits.slice(2, 4)
+      const number = digits.slice(4)
+
+      if (number.length === 9) {
+        return `+${country} ${area} ${number.slice(
+          0,
+          5,
+        )}-${number.slice(5)}`
+      }
+
+      return `+${country} ${area} ${number.slice(
+        0,
+        4,
+      )}-${number.slice(4)}`
+    }
+
+    return `+${digits}`
+  } catch {
+    const digits = value.replace(/\D/g, '')
+
+    if (!digits) {
+      return ''
+    }
+
+    return `+${digits}`
+  }
 }
 
 export function getLinkedInPath(url: string) {

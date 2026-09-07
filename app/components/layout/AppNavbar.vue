@@ -9,11 +9,9 @@ import {
 
 import logo from '~/assets/images/logo.png'
 
-const { data: portfolio } = usePortfolio()
 const { isDark, isReady: isThemeReady, toggleTheme } = useTheme()
 
 const activeSection = ref<string | null>(null)
-const emailHref = 'mailto:hudsonhugo90@gmail.com?subject=Contato%20pelo%20Portf%C3%B3lio&body=Ol%C3%A1%20Hudson%2C%20podemos%20conversar%3F'
 
 const themeIcon = computed(() => {
   if (!isThemeReady.value || isDark.value) {
@@ -61,42 +59,6 @@ const sections = [
     icon: 'mdi-phone-outline',
   },
 ]
-
-const socialLinks = computed(() => {
-  return [...(portfolio.value?.socialLinks ?? [])].sort(
-    (a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
-  )
-})
-
-function normalize(value: string) {
-  return value
-    .normalize('NFD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .toLowerCase()
-    .trim()
-}
-
-function findSocialUrl(platform: string) {
-  const normalizedPlatform = normalize(platform)
-
-  const social = socialLinks.value.find(
-    (item) => normalize(item.platform) === normalizedPlatform,
-  )
-
-  return social?.url ?? ''
-}
-
-const githubUrl = computed(() => {
-  return findSocialUrl('github')
-})
-
-const linkedinUrl = computed(() => {
-  return findSocialUrl('linkedin')
-})
-
-const whatsappUrl = computed(() => {
-  return findSocialUrl('whatsapp')
-})
 
 function getSectionElement(id: string) {
   return document.getElementById(id)
@@ -288,56 +250,13 @@ onBeforeUnmount(() => {
           :label="section.label"
           no-caps
           @click="scrollToSection(section.id)"
-          :color="isDark ? 'primary' : 'secondary'"
+          :color="isDark ? 'primary' : 'dark'"
         />
       </q-tabs>
-
+      
       <q-space />
 
-      <!-- Redes sociais -->
       <div class="row items-center q-gutter-xs gt-sm">
-        <q-btn
-          v-if="githubUrl"
-          flat
-          round
-          icon="mdi-github"
-          aria-label="GitHub"
-          :href="githubUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        />
-
-        <q-btn
-          v-if="linkedinUrl"
-          flat
-          round
-          icon="mdi-linkedin"
-          aria-label="LinkedIn"
-          :href="linkedinUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        />
-
-        <q-btn
-          v-if="whatsappUrl"
-          flat
-          round
-          icon="mdi-whatsapp"
-          aria-label="WhatsApp"
-          :href="whatsappUrl"
-          target="_blank"
-          rel="noopener noreferrer"
-        />
-
-        <q-btn
-          flat
-          round
-          icon="mdi-email"
-          aria-label="Enviar e-mail"
-          :href="emailHref"
-          target="_blank"
-        />
-
         <q-btn
           flat
           round
@@ -368,45 +287,6 @@ onBeforeUnmount(() => {
         aria-label="Abrir menu"
       >
         <q-menu>
-          <!-- Redes sociais -->
-          <div
-            class="row justify-center q-gutter-sm q-pb-sm q-mt-sm"
-          >
-            <q-btn
-              v-if="githubUrl"
-              flat
-              round
-              icon="mdi-github"
-              aria-label="GitHub"
-              :href="githubUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-
-            <q-btn
-              v-if="linkedinUrl"
-              flat
-              round
-              icon="mdi-linkedin"
-              aria-label="LinkedIn"
-              :href="linkedinUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-
-            <q-btn
-              v-if="whatsappUrl"
-              flat
-              round
-              icon="mdi-whatsapp"
-              aria-label="WhatsApp"
-              :href="whatsappUrl"
-              target="_blank"
-              rel="noopener noreferrer"
-            />
-          </div>
-
-          <!-- Navegação -->
           <q-list
             style="min-width: 200px"
             class="bg-transparent"
