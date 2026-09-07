@@ -567,10 +567,10 @@ onBeforeUnmount(() => {
           </q-carousel-slide>
 
           <!-- Setas -->
-          <template #control>
+          <template #control v-if="!isMobile">
             <q-carousel-control
-              position="bottom-left"
-              :offset="[0, 16]"
+              position="top-left"
+              :offset="[0, 180]"
             >
               <q-btn
                 round
@@ -585,8 +585,8 @@ onBeforeUnmount(() => {
             </q-carousel-control>
 
             <q-carousel-control
-              position="bottom-right"
-              :offset="[0, 16]"
+              position="top-right"
+              :offset="[0, 180]"
             >
               <q-btn
                 round

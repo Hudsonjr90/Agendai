@@ -449,7 +449,7 @@ watch(totalPages, (pages) => {
             <q-card-actions
               class="justify-between q-px-md q-py-sm q-mb-md q-mt-md"
             >
-              <div class="text-caption text-grey-6">
+              <div class="text-caption">
                 {{ getType(education.course) }}
               </div>
 

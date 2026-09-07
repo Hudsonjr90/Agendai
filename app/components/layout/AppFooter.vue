@@ -1,7 +1,7 @@
 <template>
   <q-footer
      bordered
-    :class="isDark ? 'bg-transparent backdrop-blur' : 'bg-primary'"
+    class="bg-primary"
   >
 
     <div class="q-py-lg">
@@ -19,7 +19,5 @@
 </template>
 
 <script setup lang="ts">
-const isDark = useTheme().isDark
-
 
 </script>
