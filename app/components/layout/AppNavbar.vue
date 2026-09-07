@@ -13,6 +13,7 @@ const { data: portfolio } = usePortfolio()
 const { isDark, isReady: isThemeReady, toggleTheme } = useTheme()
 
 const activeSection = ref<string | null>(null)
+const emailHref = 'mailto:hudsonhugo90@gmail.com?subject=Contato%20pelo%20Portf%C3%B3lio&body=Ol%C3%A1%20Hudson%2C%20podemos%20conversar%3F'
 
 const themeIcon = computed(() => {
   if (!isThemeReady.value || isDark.value) {
@@ -326,19 +327,28 @@ onBeforeUnmount(() => {
           rel="noopener noreferrer"
         />
 
-      <!-- <q-btn
-        flat
-        round
-        :icon="themeIcon"
-        :aria-label="themeLabel"
-        :title="themeLabel"
-        @click="toggleTheme"
-      /> -->
+        <q-btn
+          flat
+          round
+          icon="mdi-email"
+          aria-label="Enviar e-mail"
+          :href="emailHref"
+          target="_blank"
+        />
+
+        <q-btn
+          flat
+          round
+          :icon="themeIcon"
+          :aria-label="themeLabel"
+          :title="themeLabel"
+          @click="toggleTheme"
+        />
 
       </div>
 
       <!-- Menu mobile -->
-      <!-- <q-btn
+      <q-btn
         flat
         round
         :icon="themeIcon"
@@ -346,7 +356,7 @@ onBeforeUnmount(() => {
         :aria-label="themeLabel"
         :title="themeLabel"
         @click="toggleTheme"
-      /> -->
+      />
 
       <q-btn
         flat
