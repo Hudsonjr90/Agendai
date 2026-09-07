@@ -8,7 +8,6 @@ import {
 } from 'vue'
 
 import logo from '~/assets/images/logo.png'
-import logoWhite from '~/assets/images/logow.png'
 
 const { data: portfolio } = usePortfolio()
 const { isDark, isReady: isThemeReady, toggleTheme } = useTheme()
@@ -261,7 +260,7 @@ onBeforeUnmount(() => {
           @click.prevent="handleLogoClick"
         >
           <img
-            :src="logoWhite"
+            :src="logo"
             alt="HK Dev"
             height="60"
             width="60"
