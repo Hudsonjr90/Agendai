@@ -445,6 +445,7 @@ onBeforeUnmount(() => {
                 >
                   <q-avatar
                     color="primary"
+                    text-color="white"
                     size="44px"
                   >
                     <q-icon name="mdi-email-outline" />
@@ -473,6 +474,7 @@ onBeforeUnmount(() => {
                 >
                   <q-avatar
                     color="primary"
+                    text-color="white"
                     size="44px"
                   >
                     <q-icon
@@ -527,17 +529,17 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="contact-location q-mt-md">
+                 <q-chip
+                  class="text-body1 text-weight-bold bg-primary text-white"
+                >
                 <q-icon
                   name="mdi-map-marker-outline"
-                  color="primary"
+                  text-color="white"
                   size="26px"
-                />
-
-                <span
-                  class="text-body1 text-weight-bold"
-                >
+                  class="q-mr-xs"
+                />              
                   {{ locationLabel }}
-                </span>
+                </q-chip>
               </div>
             </q-card-section>
 

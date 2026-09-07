@@ -325,7 +325,7 @@ watch(
         </div>
 
         <div class="col-12 col-md-auto">
-          <q-chip class="text-caption bg-primary">
+          <q-chip class="text-caption text-white bg-primary">
             {{ filteredTechnologies.length }} tecnologias
           </q-chip>
         </div>
