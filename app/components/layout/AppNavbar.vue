@@ -265,6 +265,7 @@ onBeforeUnmount(() => {
             alt="HK Dev"
             height="60"
             width="60"
+            class="q-pa-xs"
           />
         </a>
       </q-toolbar-title>
