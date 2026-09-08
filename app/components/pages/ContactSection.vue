@@ -1,32 +1,19 @@
 <script setup lang="ts">
-import {
-  computed,
-  nextTick,
-  onBeforeUnmount,
-  onMounted,
-  ref,
-  watch,
-} from 'vue'
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue'
 
-import type {
-  GeoJSON as LeafletGeoJSON,
-  Map as LeafletMap,
-} from 'leaflet'
+import type { GeoJSON as LeafletGeoJSON, Map as LeafletMap } from 'leaflet'
 
 import 'leaflet/dist/leaflet.css'
 
-import {
-  getSocialDisplayValue,
-  getSocialIcon,
-  getSocialLabel,
-} from '~/utils/global'
+import { getSocialDisplayValue, getSocialIcon, getSocialLabel } from '~/utils/global'
 
 const { data: portfolio } = usePortfolio()
 const { isMobile } = useMobile()
 const { isDark } = useTheme()
 
 const config = useRuntimeConfig()
-const emailHref = 'mailto:hudsonhugo90@gmail.com?subject=Contato%20pelo%20Portf%C3%B3lio&body=Ol%C3%A1%20Hudson%2C%20podemos%20conversar%3F'
+const emailHref =
+  'mailto:hudsonhugo90@gmail.com?subject=Contato%20pelo%20Portf%C3%B3lio&body=Ol%C3%A1%20Hudson%2C%20podemos%20conversar%3F'
 
 const mapContainer = ref<HTMLElement | null>(null)
 
@@ -54,10 +41,7 @@ const socialLinks = computed(() => {
 
       return platform !== 'email'
     })
-    .sort(
-      (a, b) =>
-        (a.sortOrder ?? 0) - (b.sortOrder ?? 0),
-    )
+    .sort((a, b) => (a.sortOrder ?? 0) - (b.sortOrder ?? 0))
 })
 
 const locationLabel = 'Rio de Janeiro, RJ, Brasil'
@@ -85,14 +69,8 @@ function createLocationIcon(L: typeof import('leaflet')) {
   })
 }
 
-function getNeighborhoodName(
-  feature: {
-    properties?: Record<string, unknown> | null
-  },
-) {
-  return String(
-    feature.properties?.nome ?? '',
-  ).trim()
+function getNeighborhoodName(feature: { properties?: Record<string, unknown> | null }) {
+  return String(feature.properties?.nome ?? '').trim()
 }
 
 function normalizeNeighborhoodName(value: string) {
@@ -103,20 +81,10 @@ function normalizeNeighborhoodName(value: string) {
     .trim()
 }
 
-function getNeighborhoodStyle(
-  feature: {
-    properties?: Record<string, unknown> | null
-  },
-) {
-  const name = normalizeNeighborhoodName(
-    getNeighborhoodName(feature),
-  )
+function getNeighborhoodStyle(feature: { properties?: Record<string, unknown> | null }) {
+  const name = normalizeNeighborhoodName(getNeighborhoodName(feature))
 
-  const isSelected =
-    name ===
-    normalizeNeighborhoodName(
-      locationCoordinates.neighborhood,
-    )
+  const isSelected = name === normalizeNeighborhoodName(locationCoordinates.neighborhood)
 
   if (isSelected) {
     return {
@@ -143,44 +111,26 @@ function onNeighborhoodEachFeature(
   },
   layer: import('leaflet').Layer,
 ) {
-  const neighborhoodName =
-    getNeighborhoodName(feature)
+  const neighborhoodName = getNeighborhoodName(feature)
 
   if (!neighborhoodName) {
     return
   }
 
-  const normalizedName =
-    normalizeNeighborhoodName(
-      neighborhoodName,
-    )
+  const normalizedName = normalizeNeighborhoodName(neighborhoodName)
 
-  const selectedName =
-    normalizeNeighborhoodName(
-      locationCoordinates.neighborhood,
-    )
+  const selectedName = normalizeNeighborhoodName(locationCoordinates.neighborhood)
 
-  if (
-    normalizedName === selectedName &&
-    'bindTooltip' in layer
-  ) {
-    ;(
-      layer as import('leaflet').Path
-    ).bindTooltip(
-      `<strong>${neighborhoodName}</strong>`,
-      {
-        permanent: true,
-        direction: 'center',
-        className:
-          'neighborhood-label neighborhood-label-active',
-      },
-    )
+  if (normalizedName === selectedName && 'bindTooltip' in layer) {
+    ;(layer as import('leaflet').Path).bindTooltip(`<strong>${neighborhoodName}</strong>`, {
+      permanent: true,
+      direction: 'center',
+      className: 'neighborhood-label neighborhood-label-active',
+    })
   }
 }
 
-async function loadNeighborhoods(
-  L: typeof import('leaflet'),
-) {
+async function loadNeighborhoods(L: typeof import('leaflet')) {
   try {
     const data = await $fetch<{
       type: 'FeatureCollection'
@@ -200,10 +150,7 @@ async function loadNeighborhoods(
         )
       },
 
-      onEachFeature: (
-        feature,
-        layer,
-      ) => {
+      onEachFeature: (feature, layer) => {
         onNeighborhoodEachFeature(
           feature as {
             properties?: Record<string, unknown> | null
@@ -213,28 +160,18 @@ async function loadNeighborhoods(
 
         layer.on({
           mouseover: () => {
-            const neighborhoodName =
-              getNeighborhoodName(
-                feature as {
-                  properties?: Record<string, unknown> | null
-                },
-              )
+            const neighborhoodName = getNeighborhoodName(
+              feature as {
+                properties?: Record<string, unknown> | null
+              },
+            )
 
             const isSelected =
-              normalizeNeighborhoodName(
-                neighborhoodName,
-              ) ===
-              normalizeNeighborhoodName(
-                locationCoordinates.neighborhood,
-              )
+              normalizeNeighborhoodName(neighborhoodName) ===
+              normalizeNeighborhoodName(locationCoordinates.neighborhood)
 
-            if (
-              !isSelected &&
-              'setStyle' in layer
-            ) {
-              ;(
-                layer as import('leaflet').Path
-              ).setStyle({
+            if (!isSelected && 'setStyle' in layer) {
+              ;(layer as import('leaflet').Path).setStyle({
                 weight: 2,
                 opacity: 0.8,
                 fillOpacity: 0.05,
@@ -244,9 +181,7 @@ async function loadNeighborhoods(
 
           mouseout: () => {
             if ('setStyle' in layer) {
-              ;(
-                layer as import('leaflet').Path
-              ).setStyle(
+              ;(layer as import('leaflet').Path).setStyle(
                 getNeighborhoodStyle(
                   feature as {
                     properties?: Record<string, unknown> | null
@@ -261,10 +196,7 @@ async function loadNeighborhoods(
 
     neighborhoodLayer.bringToBack()
   } catch (error) {
-    console.error(
-      'Erro ao carregar os limites dos bairros:',
-      error,
-    )
+    console.error('Erro ao carregar os limites dos bairros:', error)
   }
 }
 
@@ -279,14 +211,10 @@ async function initializeMap() {
   try {
     const L = await import('leaflet')
 
-    const apiKey = String(
-      config.public.cartoApiKey ?? '',
-    ).trim()
+    const apiKey = String(config.public.cartoApiKey ?? '').trim()
 
     if (!apiKey) {
-      console.warn(
-        'CARTO API key não configurada.',
-      )
+      console.warn('CARTO API key não configurada.')
 
       mapError.value = true
       isMapLoading.value = false
@@ -295,39 +223,27 @@ async function initializeMap() {
     }
 
     map = L.map(mapContainer.value, {
-      center: [
-        locationCoordinates.lat,
-        locationCoordinates.lng,
-      ],
+      center: [locationCoordinates.lat, locationCoordinates.lng],
       zoom: locationCoordinates.zoom,
       zoomControl: true,
       scrollWheelZoom: true,
       attributionControl: true,
     })
 
-    tileLayer = L.tileLayer(
-      getTileUrl(),
-      {
-        attribution:
-          '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20,
-      },
-    ).addTo(map)
+    tileLayer = L.tileLayer(getTileUrl(), {
+      attribution:
+        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 20,
+    }).addTo(map)
 
     await loadNeighborhoods(L)
 
-    const locationMarker = L.marker(
-      [
-        locationCoordinates.lat,
-        locationCoordinates.lng,
-      ],
-      {
-        icon: createLocationIcon(L),
-        title: 'Hudson Kennedy',
-        alt: 'Localização de Hudson Kennedy',
-      },
-    ).addTo(map)
+    const locationMarker = L.marker([locationCoordinates.lat, locationCoordinates.lng], {
+      icon: createLocationIcon(L),
+      title: 'Hudson Kennedy',
+      alt: 'Localização de Hudson Kennedy',
+    }).addTo(map)
 
     locationMarker
       .bindPopup(
@@ -351,10 +267,7 @@ async function initializeMap() {
       map?.invalidateSize()
     }, 300)
   } catch (error) {
-    console.error(
-      'Erro ao inicializar o mapa:',
-      error,
-    )
+    console.error('Erro ao inicializar o mapa:', error)
 
     mapError.value = true
     isMapLoading.value = false
@@ -368,24 +281,21 @@ onMounted(() => {
   initializeMap()
 })
 
-watch(
-  isDark,
-  async () => {
-    if (!map) {
-      return
-    }
+watch(isDark, async () => {
+  if (!map) {
+    return
+  }
 
-    const L = await import('leaflet')
+  const L = await import('leaflet')
 
-    tileLayer?.remove()
-    tileLayer = L.tileLayer(getTileUrl(), {
-      attribution:
-        '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
-      subdomains: 'abcd',
-      maxZoom: 20,
-    }).addTo(map)
-  },
-)
+  tileLayer?.remove()
+  tileLayer = L.tileLayer(getTileUrl(), {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>, &copy; <a href="https://carto.com/attributions">CARTO</a>',
+    subdomains: 'abcd',
+    maxZoom: 20,
+  }).addTo(map)
+})
 
 onBeforeUnmount(() => {
   neighborhoodLayer = null
@@ -397,29 +307,19 @@ onBeforeUnmount(() => {
 </script>
 
 <template>
-  <section
-    id="contato"
-    class="q-py-xl"
-  >
+  <section id="contato" class="q-py-xl">
     <div class="wrapper">
       <!-- Cabeçalho -->
       <div class="contact-heading q-mb-xl">
-        <div
-          class="text-overline text-primary text-weight-bold"
-        >
-          Contato
-        </div>
+        <div class="text-overline text-primary text-weight-bold">Contato</div>
 
         <div class="text-weight-bold" :class="isMobile ? 'text-h4' : 'text-h3'">
           Vamos conversar?
         </div>
 
         <div class="text-body1 q-mt-md">
-          Estou aberto a novas oportunidades,
-          projetos e conexões profissionais.
-          Se você tem uma ideia ou oportunidade
-          que possa fazer sentido, entre em
-          contato.
+          Estou aberto a novas oportunidades, projetos e conexões profissionais. Se você tem uma
+          ideia ou oportunidade que possa fazer sentido, entre em contato.
         </div>
       </div>
 
@@ -427,40 +327,20 @@ onBeforeUnmount(() => {
       <div class="row q-col-gutter-lg">
         <!-- Canais -->
         <div class="col-12 col-md-5">
-          <q-card
-            flat
-            bordered
-            class="contact-card full-height bg-transparent"
-          >
+          <q-card flat bordered class="contact-card full-height bg-transparent">
             <q-card-section class="q-pa-lg">
-              <div class="text-h6 text-weight-bold">
-                Canais
-              </div>
+              <div class="text-h6 text-weight-bold">Canais</div>
 
               <div class="contact-list q-mt-lg">
-                <a
-                  :href="emailHref"
-                  class="contact-info"
-                  target="_blank"
-                >
-                  <q-avatar
-                    color="primary"
-                    text-color="white"
-                    size="44px"
-                  >
+                <a :href="emailHref" class="contact-info" target="_blank">
+                  <q-avatar color="primary" text-color="white" size="44px">
                     <q-icon name="mdi-email-outline" />
                   </q-avatar>
 
                   <div class="contact-info-content">
-                    <div class="text-caption">
-                      E-mail
-                    </div>
+                    <div class="text-caption">E-mail</div>
 
-                    <div
-                      class="text-body2 text-weight-bold"
-                    >
-                      hudsonhugo90@gmail.com
-                    </div>
+                    <div class="text-body2 text-weight-bold">hudsonhugo90@gmail.com</div>
                   </div>
                 </a>
 
@@ -472,40 +352,17 @@ onBeforeUnmount(() => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <q-avatar
-                    color="primary"
-                    text-color="white"
-                    size="44px"
-                  >
-                    <q-icon
-                      :name="
-                        getSocialIcon(
-                          social.platform,
-                          social.icon,
-                        )
-                      "
-                    />
+                  <q-avatar color="primary" text-color="white" size="44px">
+                    <q-icon :name="getSocialIcon(social.platform, social.icon)" />
                   </q-avatar>
 
                   <div class="contact-info-content">
                     <div class="text-caption">
-                      {{
-                        getSocialLabel(
-                          social.platform,
-                          social.label,
-                        )
-                      }}
+                      {{ getSocialLabel(social.platform, social.label) }}
                     </div>
 
-                    <div
-                      class="text-body2 text-weight-bold"
-                    >
-                      {{
-                        getSocialDisplayValue(
-                          social.platform,
-                          social.url,
-                        )
-                      }}
+                    <div class="text-body2 text-weight-bold">
+                      {{ getSocialDisplayValue(social.platform, social.url) }}
                     </div>
                   </div>
                 </a>
@@ -516,67 +373,34 @@ onBeforeUnmount(() => {
 
         <!-- Localização -->
         <div class="col-12 col-md-7">
-          <q-card
-            flat
-            bordered
-            class="contact-map-card full-height bg-transparent"
-          >
-            <q-card-section
-              class="q-pa-lg q-pb-md"
-            >
+          <q-card flat bordered class="contact-map-card full-height bg-transparent">
+            <q-card-section class="q-pa-lg q-pb-md">
               <div class="text-h6 text-weight-bold">
                 Localização
-              </div>
 
-              <div class="contact-location q-mt-md">
-                 <q-chip
-                  class="text-body1 text-weight-bold bg-primary text-white"
-                >
-                <q-icon
-                  name="mdi-map-marker-outline"
-                  text-color="white"
-                  size="26px"
-                  class="q-mr-xs"
-                />              
+                <q-chip class="text-body1 text-weight-bold bg-primary text-white">
+                  <q-icon
+                    name="mdi-map-marker-outline"
+                    text-color="white"
+                    size="26px"
+                    class="q-mr-xs"
+                  />
                   {{ locationLabel }}
                 </q-chip>
               </div>
             </q-card-section>
 
-            <div
-              ref="mapContainer"
-              class="contact-map"
-            >
-              <div
-                v-if="isMapLoading"
-                class="map-state"
-              >
-                <q-spinner
-                  color="primary"
-                  size="36px"
-                />
+            <div ref="mapContainer" class="contact-map">
+              <div v-if="isMapLoading" class="map-state">
+                <q-spinner color="primary" size="36px" />
 
-                <div class="text-body2 q-mt-sm">
-                  Carregando mapa...
-                </div>
+                <div class="text-body2 q-mt-sm">Carregando mapa...</div>
               </div>
 
-              <div
-                v-if="
-                  mapError &&
-                  !isMapLoading
-                "
-                class="map-state"
-              >
-                <q-icon
-                  name="mdi-map-outline"
-                  size="40px"
-                  color="primary"
-                />
+              <div v-if="mapError && !isMapLoading" class="map-state">
+                <q-icon name="mdi-map-outline" size="40px" color="primary" />
 
-                <div class="text-body2 q-mt-sm">
-                  Não foi possível carregar o mapa.
-                </div>
+                <div class="text-body2 q-mt-sm">Não foi possível carregar o mapa.</div>
               </div>
             </div>
           </q-card>
@@ -625,12 +449,6 @@ onBeforeUnmount(() => {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-}
-
-.contact-location {
-  display: flex;
-  align-items: center;
-  gap: 10px;
 }
 
 .contact-map {

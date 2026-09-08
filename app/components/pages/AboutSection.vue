@@ -27,11 +27,7 @@ const principles = [
 </script>
 
 <template>
-  <section
-    id="sobre"
-    class="q-py-xl"
-    aria-labelledby="about-title"
-  >
+  <section id="sobre" class="q-py-xl" aria-labelledby="about-title">
     <div class="wrapper">
       <div
         v-if="pending"
@@ -39,22 +35,11 @@ const principles = [
         aria-live="polite"
         aria-busy="true"
       >
-        <q-spinner
-          color="primary"
-          size="50px"
-          aria-label="Carregando informações do perfil"
-        />
+        <q-spinner color="primary" size="50px" aria-label="Carregando informações do perfil" />
       </div>
 
-      <div
-        v-else-if="error"
-        class="row items-center justify-center q-py-xl"
-        role="alert"
-      >
-        <q-banner
-          rounded
-          class="bg-negative text-white"
-        >
+      <div v-else-if="error" class="row items-center justify-center q-py-xl" role="alert">
+        <q-banner rounded class="bg-negative text-white">
           Não foi possível carregar os dados do portfólio.
         </q-banner>
       </div>
@@ -101,16 +86,11 @@ const principles = [
                     aria-label="Baixar currículo criativo em PDF"
                   >
                     <q-item-section avatar>
-                      <q-icon
-                        name="mdi-lightbulb-on-outline"
-                        aria-hidden="true"
-                      />
+                      <q-icon name="mdi-lightbulb-on-outline" aria-hidden="true" />
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label>
-                        Currículo Criativo
-                      </q-item-label>
+                      <q-item-label> Currículo Criativo </q-item-label>
                     </q-item-section>
                   </q-item>
 
@@ -125,25 +105,17 @@ const principles = [
                     aria-label="Baixar currículo ATS em PDF"
                   >
                     <q-item-section avatar>
-                      <q-icon
-                        name="mdi-robot-outline"
-                        aria-hidden="true"
-                      />
+                      <q-icon name="mdi-robot-outline" aria-hidden="true" />
                     </q-item-section>
 
                     <q-item-section>
-                      <q-item-label>
-                        Currículo ATS
-                      </q-item-label>
+                      <q-item-label> Currículo ATS </q-item-label>
                     </q-item-section>
                   </q-item>
                 </q-list>
               </q-btn-dropdown>
 
-              <social-links-fab
-                direction="right"
-                
-              />
+              <social-links-fab direction="right" />
             </div>
           </div>
 
@@ -151,10 +123,7 @@ const principles = [
           <div class="col-12 col-md-5 flex flex-center">
             <div class="profile-avatar">
               <!-- Anel elétrico -->
-              <div
-                class="profile-avatar__electric"
-                aria-hidden="true"
-              >
+              <div class="profile-avatar__electric" aria-hidden="true">
                 <span class="electric-spark electric-spark--1"></span>
                 <span class="electric-spark electric-spark--2"></span>
                 <span class="electric-spark electric-spark--3"></span>
@@ -180,17 +149,8 @@ const principles = [
         <!-- Sobre mim / Como eu trabalho -->
         <div class="row items-center q-col-gutter-xl">
           <div class="col-12 col-md-7">
-            <div
-              class="text-overline text-primary"
-              aria-hidden="true"
-            >
-              Sobre mim
-            </div>
-
-            <h2
-              class="text-weight-bold q-mb-lg"
-              :class="isMobile ? 'text-h4' : 'text-h3'"
-            >
+            <h2 class="text-weight-bold q-mb-lg" :class="isMobile ? 'text-h4' : 'text-h3'">
+              <div class="text-overline text-primary" aria-hidden="true">Sobre mim</div>
               Experiência que gera resultado
             </h2>
 
@@ -200,24 +160,12 @@ const principles = [
           </div>
 
           <div class="col-12 col-md-5">
-            <div
-              class="text-overline text-primary"
-              aria-hidden="true"
-            >
-              Como eu trabalho
-            </div>
-
-            <h2
-              class="text-weight-bold q-mb-md"
-              :class="isMobile ? 'text-h5' : 'text-h4'"
-            >
+            <h2 class="text-weight-bold q-mb-md" :class="isMobile ? 'text-h5' : 'text-h4'">
+              <div class="text-overline text-primary" aria-hidden="true">Como eu trabalho</div>
               Engenharia com propósito
             </h2>
 
-            <div
-              class="column q-gutter-md"
-              aria-label="Princípios de trabalho"
-            >
+            <div class="column q-gutter-md" aria-label="Princípios de trabalho">
               <q-card
                 v-for="principle in principles"
                 :key="principle.title"
@@ -225,31 +173,17 @@ const principles = [
                 bordered
                 class="bg-primary"
               >
-                <q-card-section
-                  class="row items-center no-wrap q-gutter-md"
-                >
-                  <q-avatar
-                    color="primary"
-                    text-color="white"
-                    size="52px"
-                  >
-                    <q-icon
-                      :name="principle.icon"
-                      size="28px"
-                      aria-hidden="true"
-                    />
+                <q-card-section class="row items-center no-wrap q-gutter-md">
+                  <q-avatar color="primary" text-color="white" size="52px">
+                    <q-icon :name="principle.icon" size="28px" aria-hidden="true" />
                   </q-avatar>
 
                   <div class="col">
-                    <h3
-                      class="text-subtitle1 text-white text-weight-bold"
-                    >
+                    <h3 class="text-subtitle1 text-white text-weight-bold">
                       {{ principle.title }}
                     </h3>
 
-                    <p
-                      class="text-body2 text-white q-mt-xs q-mb-none"
-                    >
+                    <p class="text-body2 text-white q-mt-xs q-mb-none">
                       {{ principle.description }}
                     </p>
                   </div>
@@ -332,67 +266,54 @@ const principles = [
 
   border-radius: 50%;
 
-  background:
-    conic-gradient(
-      from 0deg,
+  background: conic-gradient(
+    from 0deg,
 
-      transparent 0deg,
-      transparent 12deg,
+    transparent 0deg,
+    transparent 12deg,
 
-      rgba(0, 174, 239, 0.95) 16deg,
-      rgba(0, 229, 255, 1) 22deg,
-      transparent 29deg,
+    rgba(0, 174, 239, 0.95) 16deg,
+    rgba(0, 229, 255, 1) 22deg,
+    transparent 29deg,
 
-      transparent 55deg,
+    transparent 55deg,
 
-      rgba(0, 174, 239, 0.9) 62deg,
-      rgba(0, 229, 255, 1) 69deg,
-      transparent 77deg,
+    rgba(0, 174, 239, 0.9) 62deg,
+    rgba(0, 229, 255, 1) 69deg,
+    transparent 77deg,
 
-      transparent 118deg,
+    transparent 118deg,
 
-      rgba(0, 174, 239, 0.9) 126deg,
-      rgba(0, 229, 255, 1) 133deg,
-      transparent 141deg,
+    rgba(0, 174, 239, 0.9) 126deg,
+    rgba(0, 229, 255, 1) 133deg,
+    transparent 141deg,
 
-      transparent 190deg,
+    transparent 190deg,
 
-      rgba(0, 174, 239, 0.95) 198deg,
-      rgba(0, 229, 255, 1) 206deg,
-      transparent 214deg,
+    rgba(0, 174, 239, 0.95) 198deg,
+    rgba(0, 229, 255, 1) 206deg,
+    transparent 214deg,
 
-      transparent 255deg,
+    transparent 255deg,
 
-      rgba(0, 174, 239, 0.9) 264deg,
-      rgba(0, 229, 255, 1) 271deg,
-      transparent 280deg,
+    rgba(0, 174, 239, 0.9) 264deg,
+    rgba(0, 229, 255, 1) 271deg,
+    transparent 280deg,
 
-      transparent 320deg,
+    transparent 320deg,
 
-      rgba(0, 174, 239, 0.95) 328deg,
-      rgba(0, 229, 255, 1) 335deg,
-      transparent 344deg,
+    rgba(0, 174, 239, 0.95) 328deg,
+    rgba(0, 229, 255, 1) 335deg,
+    transparent 344deg,
 
-      transparent 360deg
-    );
+    transparent 360deg
+  );
 
-  -webkit-mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 4px),
-      #000 calc(100% - 3px)
-    );
+  -webkit-mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
 
-  mask:
-    radial-gradient(
-      farthest-side,
-      transparent calc(100% - 4px),
-      #000 calc(100% - 3px)
-    );
+  mask: radial-gradient(farthest-side, transparent calc(100% - 4px), #000 calc(100% - 3px));
 
-  filter:
-    drop-shadow(0 0 4px rgba(0, 229, 255, 0.95))
-    drop-shadow(0 0 10px rgba(0, 174, 239, 0.75))
+  filter: drop-shadow(0 0 4px rgba(0, 229, 255, 0.95)) drop-shadow(0 0 10px rgba(0, 174, 239, 0.75))
     drop-shadow(0 0 18px rgba(0, 174, 239, 0.35));
 
   transform-origin: center center;
@@ -603,7 +524,7 @@ const principles = [
     --avatar-size: 200px;
   }
 
-   .profile-avatar__electric {
+  .profile-avatar__electric {
     inset: -14px;
     opacity: 1;
     transform: scale(1);
