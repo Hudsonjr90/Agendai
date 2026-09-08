@@ -91,7 +91,7 @@ jobs:
 
           echo "✅ Token encontrado e formato válido."
 
-              - name: Validate Vercel project configuration
+      - name: Validate Vercel project configuration
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
@@ -108,7 +108,7 @@ jobs:
 
           echo "VERCEL_ORG_ID configurado: sim"
           echo "VERCEL_PROJECT_ID configurado: sim"
-          echo "✅ Configuração do projeto encontrada."  
+          echo "✅ Configuração do projeto encontrada."
 
       - name: Pull Vercel environment
         run: npx vercel pull --yes --environment=production --token ${{ secrets.VERCEL_TOKEN }}
