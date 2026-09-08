@@ -7,7 +7,7 @@ import {
   watch,
 } from 'vue'
 
-const { isDark, isReady: isThemeReady } = useTheme()
+const { isReady: isThemeReady } = useTheme()
 
 const cursorX = ref(0)
 const cursorY = ref(0)
@@ -23,16 +23,12 @@ let targetX = 0
 let targetY = 0
 let prefersReducedMotion = false
 
-function isLightTheme() {
-  return (
-    isThemeReady.value &&
-    !isDark.value &&
-    document.body.classList.contains('body--light')
-  )
+function isThemeActive() {
+  return isThemeReady.value
 }
 
 function updateCursorPosition(event: MouseEvent) {
-  if (!isLightTheme()) {
+  if (!isThemeActive()) {
     isVisible.value = false
     return
   }
@@ -63,13 +59,13 @@ function handleMouseLeave() {
 }
 
 function handleMouseEnter() {
-  if (isLightTheme()) {
+  if (isThemeActive()) {
     isVisible.value = true
   }
 }
 
 function handlePointerOver(event: MouseEvent) {
-  if (!isLightTheme()) {
+  if (!isThemeActive()) {
     isInteractive.value = false
     return
   }
@@ -89,7 +85,7 @@ function handlePointerOver(event: MouseEvent) {
 }
 
 function updateVisibility() {
-  if (!isLightTheme()) {
+  if (!isThemeActive()) {
     isVisible.value = false
   }
 }
@@ -99,7 +95,7 @@ watch(isVisible, (visible) => {
 })
 
 watch(
-  [isDark, isThemeReady],
+  isThemeReady,
   async () => {
     await nextTick()
     updateVisibility()
@@ -185,7 +181,7 @@ onBeforeUnmount(() => {
 
 <template>
   <div
-    v-if="isThemeReady && !isDark"
+    v-if="isThemeReady"
     class="cursor-effect"
     :class="{
       'cursor-effect--visible': isVisible,
