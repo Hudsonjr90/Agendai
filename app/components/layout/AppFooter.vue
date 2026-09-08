@@ -104,7 +104,7 @@
 		<div class="wave" id="wave4"></div>
 	</div>
     <div class="footer-content">
-      <div class="text-h6 text-center text-white">
+      <div class="text-center text-white" :class="isMobile ? '' : 'text-h6'">
         © 2012 - {{ new Date().getFullYear() }} Hudson Kennedy.
         Todos os direitos reservados.
       </div>
@@ -113,6 +113,7 @@
 </template>
 
 <script setup lang="ts">
+const { isMobile } = useMobile()
 </script>
 
 <style scoped>
