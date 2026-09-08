@@ -106,16 +106,16 @@ function formatDate(date: string | null) {
       v-if="experience.technologies?.length"
       class="row q-gutter-xs q-mt-lg"
     >
-      <q-chip
+      <q-badge
         v-for="technology in experience.technologies"
         :key="technology.id"
         dense
         outline
         color="primary"
-        class="technology-chip"
+        class="technology-chip q-px-md q-py-sm"
       >
         {{ technology.name }}
-      </q-chip>
+      </q-badge>
     </div>
   </q-timeline-entry>
 </template>
