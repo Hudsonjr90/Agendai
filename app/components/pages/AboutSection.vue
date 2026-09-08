@@ -673,4 +673,17 @@ const principles = [
     opacity: 1;
   }
 }
+
+@media (max-width: 768px) {
+  .profile-avatar{
+      --avatar-size: 205px;
+
+  position: relative;
+  width: var(--avatar-size);
+  height: var(--avatar-size);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  }
+}
 </style>
