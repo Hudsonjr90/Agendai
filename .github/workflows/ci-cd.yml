@@ -62,8 +62,37 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Validate Vercel token
+        env:
+          VERCEL_TOKEN: ${{ secrets.VERCEL_TOKEN }}
+        run: |
+          if [ -z "$VERCEL_TOKEN" ]; then
+            echo "❌ VERCEL_TOKEN não está configurado."
+            exit 1
+          fi
+
+          echo "Prefixo do token: ${VERCEL_TOKEN:0:4}"
+          echo "Tamanho do token: ${#VERCEL_TOKEN}"
+
+          if [[ "$VERCEL_TOKEN" == *","* ]]; then
+            echo "❌ O token contém uma vírgula."
+            exit 1
+          fi
+
+          if [[ "$VERCEL_TOKEN" == *"="* ]]; then
+            echo "❌ O token contém '='."
+            exit 1
+          fi
+
+          if [[ "$VERCEL_TOKEN" != vcp_* ]]; then
+            echo "❌ O token não possui o formato esperado."
+            exit 1
+          fi
+
+          echo "✅ Token encontrado e formato válido."
+
       - name: Pull Vercel environment
-        run: npx vercel pull --yes --environment=production --token="${{ secrets.VERCEL_TOKEN }}"
+        run: npx vercel pull --yes --environment=production --token ${{ secrets.VERCEL_TOKEN }}
         env:
           VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
           VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
