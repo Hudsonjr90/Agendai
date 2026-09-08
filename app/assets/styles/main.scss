@@ -27,6 +27,10 @@ body {
 
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Mantém o cursor customizado no mesmo contexto de empilhamento da
+     página, permitindo que o mix-blend-mode enxergue o conteúdo real. */
+  isolation: isolate;
 }
 
 ::selection {
@@ -34,3 +38,169 @@ body {
   color: $grey-1;
 }
 
+/* =========================================================
+   CURSOR EFFECT - LIGHT THEME
+   ========================================================= */
+
+.cursor-effect {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+
+  pointer-events: none;
+
+  overflow: hidden;
+
+  opacity: 0;
+
+  transition: opacity 0.25s ease;
+}
+
+.cursor-effect--visible {
+  opacity: 1;
+}
+
+/* =========================================================
+   HALO
+   ========================================================= */
+
+.cursor-effect__glow {
+  position: fixed;
+
+  width: 220px;
+  height: 220px;
+
+  border-radius: 50%;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 168, 232, 0.16) 0%,
+      rgba(0, 168, 232, 0.09) 25%,
+      rgba(0, 168, 232, 0.035) 48%,
+      transparent 72%
+    );
+
+  filter: blur(3px);
+
+  pointer-events: none;
+
+  will-change: transform;
+
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    opacity 0.25s ease;
+}
+
+/* =========================================================
+   ANEL
+   ========================================================= */
+
+.cursor-effect__ring {
+  position: fixed;
+
+  width: 34px;
+  height: 34px;
+
+  border-radius: 50%;
+
+  border: 1px solid rgba(0, 166, 232, 0.589);
+
+  box-shadow:
+    0 0 8px rgba(3, 105, 145, 0.18),
+    inset 0 0 8px rgba(0, 112, 156, 0.08);
+
+  pointer-events: none;
+
+  will-change: transform;
+
+  transition:
+    width 0.25s ease,
+    height 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* =========================================================
+   PONTO CENTRAL
+   ========================================================= */
+
+.cursor-effect__dot {
+  position: fixed;
+
+  width: 6px;
+  height: 6px;
+
+  border-radius: 50%;
+
+  background: #ffffff;
+
+  mix-blend-mode: difference;
+
+  pointer-events: none;
+
+  will-change: transform;
+}
+
+/* =========================================================
+   INTERAÇÃO
+   ========================================================= */
+
+.cursor-effect--interactive .cursor-effect__glow {
+  width: 280px;
+  height: 280px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(0, 168, 232, 0.2) 0%,
+      rgba(0, 168, 232, 0.11) 25%,
+      rgba(0, 168, 232, 0.04) 50%,
+      transparent 72%
+    );
+}
+
+.cursor-effect--interactive .cursor-effect__ring {
+  width: 48px;
+  height: 48px;
+
+  border-color: rgba(0, 168, 232, 0.7);
+
+  box-shadow:
+    0 0 10px rgba(0, 168, 232, 0.25),
+    0 0 20px rgba(0, 168, 232, 0.1),
+    inset 0 0 10px rgba(0, 168, 232, 0.1);
+}
+
+.cursor-effect--interactive .cursor-effect__dot {
+  width: 7px;
+  height: 7px;
+}
+
+/* =========================================================
+   GARANTIA: DARK THEME NÃO EXIBE O EFEITO
+   ========================================================= */
+
+body.body--dark .cursor-effect {
+  display: none;
+}
+
+/* =========================================================
+   OCULTA O CURSOR NATIVO ENQUANTO O EFEITO ESTÁ ATIVO
+   ========================================================= */
+
+body.cursor-effect-active,
+body.cursor-effect-active * {
+  cursor: none !important;
+}
+
+/* =========================================================
+   DISPOSITIVOS SEM CURSOR PRECISO
+   ========================================================= */
+
+@media (hover: none), (pointer: coarse) {
+  .cursor-effect {
+    display: none;
+  }
+}

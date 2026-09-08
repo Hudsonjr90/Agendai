@@ -9,6 +9,7 @@
     >
       <q-page style="min-height: calc(100vh - 30px)">
         <main>
+          <CursorEffect />
           <AboutSection />
 
           <div class="wrapper q-my-xl">

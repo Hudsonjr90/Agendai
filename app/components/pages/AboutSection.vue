@@ -1,8 +1,12 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import profileImage from '~/assets/images/profile/my.webp'
 
 const { data: portfolio, pending, error } = usePortfolio()
+
 const { isMobile } = useMobile()
+
+const activePrinciple = ref('0')
 
 const principles = [
   {
@@ -22,6 +26,24 @@ const principles = [
     description:
       'Aplico princípios de segurança, organização e padrões que tornam o software mais confiável.',
     icon: 'mdi-shield-check-outline',
+  },
+  {
+    title: 'Experiência do Usuário',
+    description:
+      'Transformo requisitos em interfaces claras, acessíveis e focadas nas necessidades de quem utiliza o produto.',
+    icon: 'mdi-account-heart-outline',
+  },
+  {
+    title: 'Código Sustentável',
+    description:
+      'Prioritizo código legível, organizado e preparado para manutenção, testes e evolução do sistema.',
+    icon: 'mdi-code-braces',
+  },
+  {
+    title: 'Evolução Contínua',
+    description:
+      'Mantenho uma postura de aprendizado constante, acompanhando tecnologias e práticas que agregam valor.',
+    icon: 'mdi-trending-up',
   },
 ]
 </script>
@@ -146,50 +168,113 @@ const principles = [
           </div>
         </div>
 
-        <!-- Sobre mim / Como eu trabalho -->
-        <div class="row items-center q-col-gutter-xl">
-          <div class="col-12 col-md-7">
+        <!-- Sobre mim -->
+        <div class="about-content q-mt-xl text-center">
+          <div class="about-text">
             <h2 class="text-weight-bold q-mb-lg" :class="isMobile ? 'text-h4' : 'text-h3'">
               <div class="text-overline text-primary" aria-hidden="true">Sobre mim</div>
               Experiência que gera resultado
             </h2>
 
-            <p class="text-body1">
+            <p class="text-body1 about-description">
               {{ portfolio.profile.about }}
             </p>
           </div>
+        </div>
 
-          <div class="col-12 col-md-5">
-            <h2 class="text-weight-bold q-mb-md" :class="isMobile ? 'text-h5' : 'text-h4'">
+        <!-- Como eu trabalho -->
+        <div class="principles-section q-mt-xl">
+          <!-- <div class="principles-heading text-center">
+            <h2 class="text-weight-bold q-mb-md" :class="isMobile ? 'text-h4' : 'text-h3'">
               <div class="text-overline text-primary" aria-hidden="true">Como eu trabalho</div>
               Engenharia com propósito
             </h2>
 
-            <div class="column q-gutter-md" aria-label="Princípios de trabalho">
-              <q-card
-                v-for="principle in principles"
+            <p class="text-body1 principles-intro">
+              Princípios que orientam minhas decisões técnicas e a forma como construo produtos
+              digitais.
+            </p>
+          </div> -->
+
+          <!-- Desktop: grade 3 x 2 -->
+          <div v-if="!isMobile" class="principles-grid q-mt-xl" aria-label="Princípios de trabalho">
+            <q-card
+              v-for="principle in principles"
+              :key="principle.title"
+              flat
+              bordered
+              class="principle-card bg-primary"
+            >
+              <q-card-section class="principle-card__content">
+                <q-avatar
+                  color="white"
+                  text-color="primary"
+                  size="52px"
+                  class="principle-card__icon"
+                >
+                  <q-icon :name="principle.icon" size="28px" aria-hidden="true" />
+                </q-avatar>
+
+                <div class="principle-card__text">
+                  <h3 class="text-subtitle1 text-white text-weight-bold">
+                    {{ principle.title }}
+                  </h3>
+
+                  <p class="text-body2 text-white q-mb-none text-center">
+                    {{ principle.description }}
+                  </p>
+                </div>
+              </q-card-section>
+            </q-card>
+          </div>
+
+          <!-- Mobile: carousel automático -->
+          <div v-else class="principles-carousel q-mt-xl" aria-label="Princípios de trabalho">
+            <q-carousel
+              v-model="activePrinciple"
+              animated
+              infinite
+              swipeable
+              navigation
+              control-color="primary"
+              navigation-icon="mdi-circle-small"
+              navigation-active-icon="mdi-circle"
+              height="300px"
+              :autoplay="5000"
+              transition-prev="slide-right"
+              transition-next="slide-left"
+              class="principles-carousel__carousel bg-transparent"
+            >
+              <q-carousel-slide
+                v-for="(principle, index) in principles"
                 :key="principle.title"
-                flat
-                bordered
-                class="bg-primary"
+                :name="String(index)"
+                class="principle-slide"
               >
-                <q-card-section class="row items-center no-wrap q-gutter-md">
-                  <q-avatar color="primary" text-color="white" size="52px">
-                    <q-icon :name="principle.icon" size="28px" aria-hidden="true" />
-                  </q-avatar>
+                <q-card flat bordered class="principle-card principle-card--mobile bg-primary">
+                  <q-card-section class="principle-card__content">
+                    <q-avatar
+                      color="white"
+                      text-color="primary"
+                      size="52px"
+                      class="principle-card__icon"
+                    >
+                      <q-icon :name="principle.icon" size="28px" aria-hidden="true" />
+                    </q-avatar>
 
-                  <div class="col">
-                    <h3 class="text-subtitle1 text-white text-weight-bold">
-                      {{ principle.title }}
-                    </h3>
+                    <div class="principle-card__text">
+                      <h3 class="text-subtitle1 text-white text-weight-bold">
+                        {{ principle.title }}
+                      </h3>
 
-                    <p class="text-body2 text-white q-mt-xs q-mb-none">
-                      {{ principle.description }}
-                    </p>
-                  </div>
-                </q-card-section>
-              </q-card>
-            </div>
+                      <p class="text-body2 text-white q-mt-sm q-mb-none text-center">
+                        {{ principle.description }}
+                      </p>
+                    </div>
+                  </q-card-section>
+                </q-card>
+              </q-carousel-slide>
+            </q-carousel>
           </div>
         </div>
       </template>
@@ -199,6 +284,115 @@ const principles = [
 
 <style>
 /* =========================================================
+   SOBRE MIM
+   ========================================================= */
+
+.about-content {
+  width: 100%;
+}
+
+.about-text {
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.about-description {
+  max-width: 1000px;
+  margin: 0 auto;
+  line-height: 1.8;
+}
+
+/* =========================================================
+   PRINCÍPIOS
+   ========================================================= */
+
+.principles-section {
+  width: 100%;
+}
+
+.principles-heading {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.principles-intro {
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0.85;
+  line-height: 1.7;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-rows: repeat(2, 220px);
+  gap: 18px;
+}
+
+.principle-card {
+  height: 220px;
+}
+
+.principle-card:hover {
+  transform: translateY(-5px);
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.22),
+    0 0 18px rgba(0, 212, 255, 0.12);
+}
+
+.principle-card__content {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.principle-card__icon {
+  flex-shrink: 0;
+  margin-bottom: -5px;
+}
+
+.principle-card__text {
+  width: 100%;
+}
+
+.principle-card__text h3 {
+  min-height: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.principle-card__text p {
+  min-height: 2px;
+}
+
+/* =========================================================
+   CAROUSEL MOBILE
+   ========================================================= */
+
+.principles-carousel {
+  width: 100%;
+}
+
+.principle-slide {
+  padding: 8px 0 34px;
+}
+
+.principle-card--mobile {
+  width: 100%;
+  min-height: 205px;
+}
+
+.principle-card--mobile .principle-card__content {
+  min-height: 205px;
+  padding: 28px 24px;
+}
+
+/* =========================================================
    AVATAR / EFEITO ELÉTRICO
    ========================================================= */
 
@@ -206,10 +400,8 @@ const principles = [
   --avatar-size: 280px;
 
   position: relative;
-
   width: var(--avatar-size);
   height: var(--avatar-size);
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -221,9 +413,7 @@ const principles = [
 
 .profile-avatar__image {
   position: relative;
-
   z-index: 3;
-
   transition:
     transform 0.4s ease,
     box-shadow 0.4s ease;
@@ -235,17 +425,11 @@ const principles = [
 
 .profile-avatar__electric {
   position: absolute;
-
   inset: -18px;
-
   z-index: 2;
-
   border-radius: 50%;
-
   opacity: 0;
-
   transform: scale(0.9);
-
   pointer-events: none;
 
   transition:
@@ -261,51 +445,37 @@ const principles = [
   content: '';
 
   position: absolute;
-
   inset: 0;
 
   border-radius: 50%;
 
   background: conic-gradient(
     from 0deg,
-
     transparent 0deg,
     transparent 12deg,
-
     rgba(0, 174, 239, 0.95) 16deg,
     rgba(0, 229, 255, 1) 22deg,
     transparent 29deg,
-
     transparent 55deg,
-
     rgba(0, 174, 239, 0.9) 62deg,
     rgba(0, 229, 255, 1) 69deg,
     transparent 77deg,
-
     transparent 118deg,
-
     rgba(0, 174, 239, 0.9) 126deg,
     rgba(0, 229, 255, 1) 133deg,
     transparent 141deg,
-
     transparent 190deg,
-
     rgba(0, 174, 239, 0.95) 198deg,
     rgba(0, 229, 255, 1) 206deg,
     transparent 214deg,
-
     transparent 255deg,
-
     rgba(0, 174, 239, 0.9) 264deg,
     rgba(0, 229, 255, 1) 271deg,
     transparent 280deg,
-
     transparent 320deg,
-
     rgba(0, 174, 239, 0.95) 328deg,
     rgba(0, 229, 255, 1) 335deg,
     transparent 344deg,
-
     transparent 360deg
   );
 
@@ -318,9 +488,6 @@ const principles = [
 
   transform-origin: center center;
 
-  /*
-   * A animação só é ativada no hover.
-   */
   animation: none;
 }
 
@@ -332,11 +499,9 @@ const principles = [
   content: '';
 
   position: absolute;
-
   inset: 7px;
 
   border-radius: 50%;
-
   border: 1px solid rgba(0, 229, 255, 0.35);
 
   box-shadow:
@@ -366,7 +531,6 @@ const principles = [
     0 0 20px rgba(0, 174, 239, 0.55);
 
   opacity: 0;
-
   transform: scale(0);
 
   animation: none;
@@ -379,42 +543,36 @@ const principles = [
 .electric-spark--1 {
   top: 5%;
   left: 25%;
-
   animation-delay: 0s;
 }
 
 .electric-spark--2 {
   top: 18%;
   right: 3%;
-
   animation-delay: 0.3s;
 }
 
 .electric-spark--3 {
   bottom: 20%;
   right: 0;
-
   animation-delay: 0.6s;
 }
 
 .electric-spark--4 {
   bottom: 4%;
   left: 30%;
-
   animation-delay: 0.9s;
 }
 
 .electric-spark--5 {
   bottom: 27%;
   left: 0;
-
   animation-delay: 1.2s;
 }
 
 .electric-spark--6 {
   top: 23%;
   left: 5%;
-
   animation-delay: 1.5s;
 }
 
@@ -424,7 +582,6 @@ const principles = [
 
 .profile-avatar:hover .profile-avatar__electric {
   opacity: 1;
-
   transform: scale(1);
 }
 
@@ -446,7 +603,6 @@ const principles = [
 
 .profile-avatar:hover .electric-spark {
   opacity: 1;
-
   animation: electric-spark 1.8s ease-in-out infinite;
 }
 
@@ -454,9 +610,6 @@ const principles = [
    ANIMAÇÕES
    ========================================================= */
 
-/*
- * Rotação do anel elétrico
- */
 @keyframes electric-rotate {
   from {
     transform: rotate(0deg);
@@ -467,85 +620,39 @@ const principles = [
   }
 }
 
-/*
- * Pulsação do segundo anel
- */
 @keyframes electric-pulse {
   0%,
   100% {
     opacity: 0.35;
-
     transform: scale(0.98);
   }
 
   50% {
     opacity: 0.9;
-
     transform: scale(1.015);
   }
 }
 
-/*
- * Aparição das faíscas
- */
 @keyframes electric-spark {
   0%,
   100% {
     opacity: 0;
-
     transform: scale(0);
   }
 
   20% {
     opacity: 1;
-
     transform: scale(1.3);
   }
 
   45% {
     opacity: 0.6;
-
     transform: scale(0.8);
   }
 
   70% {
     opacity: 0;
-
     transform: scale(0);
-  }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
-
-@media (max-width: 600px) {
-  .profile-avatar {
-    --avatar-size: 200px;
-  }
-
-  .profile-avatar__electric {
-    inset: -14px;
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .profile-avatar__electric::before {
-    animation: electric-rotate 4.5s linear infinite;
-  }
-
-  .profile-avatar__electric::after {
-    animation: electric-pulse 1.4s ease-in-out infinite;
-  }
-
-  .profile-avatar__image {
-    box-shadow:
-      0 0 15px rgba(0, 174, 239, 0.45),
-      0 0 35px rgba(0, 174, 239, 0.25);
-  }
-
-  .electric-spark {
-    animation: electric-spark 1.8s ease-in-out infinite;
   }
 }
 
@@ -556,8 +663,10 @@ const principles = [
 @media (prefers-reduced-motion: reduce) {
   .profile-avatar__electric::before,
   .profile-avatar__electric::after,
-  .electric-spark {
+  .electric-spark,
+  .principle-card {
     animation: none;
+    transition: none;
   }
 
   .profile-avatar:hover .profile-avatar__electric {
