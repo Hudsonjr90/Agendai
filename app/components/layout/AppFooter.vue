@@ -126,7 +126,7 @@ const { isMobile } = useMobile()
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  margin-top:5%;
+  margin-top: 1.3%;
 }
 
 .wave {
@@ -189,7 +189,7 @@ const { isMobile } = useMobile()
 @media screen and (max-width: 768px) {
   .footer {
     padding: 20px 20px;
-    margin-top: 30%;
+    margin-top: 5%;
   }
 }
 </style>

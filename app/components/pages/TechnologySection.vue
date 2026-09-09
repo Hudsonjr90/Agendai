@@ -349,7 +349,8 @@ watch(
                 placeholder="Buscar tecnologia..."
                 aria-label="Buscar tecnologia"
                 @clear="search = ''"
-                class="search-input"
+                class="full-width"
+                maxlength="16"
               >
                 <template #prepend>
                   <q-icon name="mdi-magnify" />

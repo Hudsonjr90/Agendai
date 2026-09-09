@@ -21,7 +21,7 @@ export const useMobile = () => {
 
   const pageSize = computed(() => ($q.screen.lt.sm ? 1 : 6));
 
-  const techPageSize = computed(() => ($q.screen.lt.sm ? 4 : 12));
+  const techPageSize = computed(() => ($q.screen.lt.sm ? 4 : 18));
 
   return {
     isMobile,
