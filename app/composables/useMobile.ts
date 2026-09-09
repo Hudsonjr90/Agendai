@@ -19,7 +19,7 @@ export const useMobile = () => {
     return "loose";
   });
 
-  const pageSize = computed(() => ($q.screen.lt.sm ? 4 : 6));
+  const pageSize = computed(() => ($q.screen.lt.sm ? 1 : 6));
 
   const techPageSize = computed(() => ($q.screen.lt.sm ? 4 : 12));
 

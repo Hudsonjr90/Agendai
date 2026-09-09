@@ -7,6 +7,7 @@ const { data: portfolio, pending, error } = usePortfolio()
 const { isMobile } = useMobile()
 
 const activePrinciple = ref('0')
+const isAboutExpanded = ref(false)
 
 const principles = [
   {
@@ -89,14 +90,14 @@ const principles = [
               {{ portfolio.profile.shortBio }}
             </p>
 
-            <div class="row items-center q-gutter-sm">
+            <div class="about-sections row items-center q-gutter-sm">
               <q-btn-dropdown
                 outline
                 icon="mdi-file-document-outline"
                 label="Meu currículo"
                 no-caps
                 aria-label="Abrir opções de currículo"
-                :class="isMobile ? 'full-width' : ''"
+                :class="['about-actions__resume', isMobile ? 'full-width' : '']"
               >
                 <q-list class="bg-primary text-white">
                   <q-item
@@ -137,7 +138,7 @@ const principles = [
                 </q-list>
               </q-btn-dropdown>
 
-              <social-links-fab direction="right" />
+              <social-links-fab direction="right" class="about-actions__social"/>
             </div>
           </div>
 
@@ -169,33 +170,36 @@ const principles = [
         </div>
 
         <!-- Sobre mim -->
-        <div class="about-content q-mt-xl text-center">
+        <div class="about-content q-mt-xl">
           <div class="about-text">
             <h2 class="text-weight-bold q-mb-lg" :class="isMobile ? 'text-h4' : 'text-h3'">
               <div class="text-overline text-primary" aria-hidden="true">Sobre mim</div>
               Experiência que gera resultado
             </h2>
 
-            <p class="text-body1 about-description">
+            <p
+              id="about-description"
+              class="text-body1 about-description"
+              :class="{ 'about-description--collapsed': isMobile && !isAboutExpanded }"
+            >
               {{ portfolio.profile.about }}
             </p>
+
+            <q-btn
+              v-if="isMobile"
+              flat
+              color="primary"
+              no-caps
+              :label="isAboutExpanded ? 'Ler menos' : 'Ler mais'"
+              :icon="isAboutExpanded ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+              :aria-expanded="isAboutExpanded"
+              aria-controls="about-description"
+              @click="isAboutExpanded = !isAboutExpanded"
+            />
           </div>
         </div>
 
-        <!-- Como eu trabalho -->
         <div class="principles-section q-mt-xl">
-          <!-- <div class="principles-heading text-center">
-            <h2 class="text-weight-bold q-mb-md" :class="isMobile ? 'text-h4' : 'text-h3'">
-              <div class="text-overline text-primary" aria-hidden="true">Como eu trabalho</div>
-              Engenharia com propósito
-            </h2>
-
-            <p class="text-body1 principles-intro">
-              Princípios que orientam minhas decisões técnicas e a forma como construo produtos
-              digitais.
-            </p>
-          </div> -->
-
           <!-- Desktop: grade 3 x 2 -->
           <div v-if="!isMobile" class="principles-grid q-mt-xl" aria-label="Princípios de trabalho">
             <q-card
@@ -293,15 +297,17 @@ const principles = [
 
 .about-text {
   max-width: 1000px;
-  margin: 0 auto;
-  text-align: center;
+
+  text-align: left;
 }
 
 .about-description {
   max-width: 1000px;
-  margin: 0 auto;
+  margin: 0;
   line-height: 1.8;
 }
+
+
 
 /* =========================================================
    PRINCÍPIOS
@@ -673,4 +679,45 @@ const principles = [
     opacity: 1;
   }
 }
+
+/*=============================================================
+Mobile Styles
+============================================================= */
+@media (max-width: 768px) {
+  .about-description--collapsed {
+    display: -webkit-box;
+    overflow: hidden;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 5;
+  }
+
+    .profile-avatar {
+    --avatar-size: 205px;
+
+    position: relative;
+    width: var(--avatar-size);
+    height: var(--avatar-size);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .about-actions {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .about-actions__social {
+    order: 1;
+    align-self: center;
+  }
+
+  .about-actions__resume {
+    order: 2;
+    width: 100%;
+  }
+}
+
 </style>
